@@ -1,0 +1,8 @@
+torikae/node_modules
+torikae/.env
+torikae/cache
+torikae/artifacts
+
+torikae-adapter/node_modules
+torikae-adapter/.env
+torikae-adapter/package-lock.json
