@@ -114,6 +114,12 @@ module.exports = {
       accounts: [
         process.env.PRIVATE_KEY
       ]
+    },
+    bsctestnet: {
+      url: 'https://data-seed-prebsc-1-s2.binance.org:8545/',
+      accounts: [
+        process.env.PRIVATE_KEY
+      ]
     }
   },
   etherscan: {
