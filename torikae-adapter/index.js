@@ -35,162 +35,7 @@ const customParams = {
   endpoint: false,
 };
 
-const solidityContractABI = [
-  {
-    inputs: [
-      { internalType: "uint256", name: "_fee", type: "uint256" },
-      {
-        internalType: "address",
-        name: "_chainLinkCallerAddress",
-        type: "address",
-      },
-    ],
-    stateMutability: "nonpayable",
-    type: "constructor",
-  },
-  {
-    anonymous: false,
-    inputs: [
-      {
-        indexed: true,
-        internalType: "address",
-        name: "previousOwner",
-        type: "address",
-      },
-      {
-        indexed: true,
-        internalType: "address",
-        name: "newOwner",
-        type: "address",
-      },
-    ],
-    name: "OwnershipTransferred",
-    type: "event",
-  },
-  {
-    inputs: [
-      { internalType: "string", name: "_xChain", type: "string" },
-      { internalType: "address", name: "_sToken", type: "address" },
-      { internalType: "string", name: "_xToken", type: "string" },
-      { internalType: "uint256", name: "_amount", type: "uint256" },
-    ],
-    name: "addLiquidity",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [{ internalType: "bytes32", name: "", type: "bytes32" }],
-    name: "balances",
-    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [],
-    name: "chainLinkCallerAddress",
-    outputs: [{ internalType: "address", name: "", type: "address" }],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [
-      { internalType: "string", name: "_xChain", type: "string" },
-      { internalType: "address", name: "_sToken", type: "address" },
-      { internalType: "string", name: "_xToken", type: "string" },
-    ],
-    name: "createPool",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [
-      { internalType: "string", name: "_xChain", type: "string" },
-      { internalType: "address", name: "_sToken", type: "address" },
-      { internalType: "string", name: "_xToken", type: "string" },
-      { internalType: "uint256", name: "_initialLiquidity", type: "uint256" },
-    ],
-    name: "createPoolWithLiquidity",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [],
-    name: "fee",
-    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [
-      { internalType: "string", name: "_xChain", type: "string" },
-      { internalType: "address", name: "_sToken", type: "address" },
-      { internalType: "string", name: "_xToken", type: "string" },
-    ],
-    name: "getPoolBalance",
-    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [
-      { internalType: "bytes32", name: "poolHash", type: "bytes32" },
-      { internalType: "address", name: "tokenAddress", type: "address" },
-      { internalType: "address", name: "receiverAddress", type: "address" },
-      { internalType: "uint256", name: "amount", type: "uint256" },
-    ],
-    name: "giveout",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [],
-    name: "owner",
-    outputs: [{ internalType: "address", name: "", type: "address" }],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [{ internalType: "bytes32", name: "", type: "bytes32" }],
-    name: "poolIsPresent",
-    outputs: [{ internalType: "bool", name: "", type: "bool" }],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [],
-    name: "renounceOwnership",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [
-      { internalType: "address", name: "newCallerAddress", type: "address" },
-    ],
-    name: "setCaller",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [{ internalType: "uint256", name: "_fee", type: "uint256" }],
-    name: "setFee",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [{ internalType: "address", name: "newOwner", type: "address" }],
-    name: "transferOwnership",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-];
+const solidityContractABI = [{"inputs":[{"internalType":"uint256","name":"_fee","type":"uint256"},{"internalType":"address","name":"_chainLinkCallerAddress","type":"address"}],"stateMutability":"nonpayable","type":"constructor"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"previousOwner","type":"address"},{"indexed":true,"internalType":"address","name":"newOwner","type":"address"}],"name":"OwnershipTransferred","type":"event"},{"inputs":[{"internalType":"string","name":"_xChain","type":"string"},{"internalType":"address","name":"_sToken","type":"address"},{"internalType":"string","name":"_xToken","type":"string"},{"internalType":"uint256","name":"_amount","type":"uint256"}],"name":"addLiquidity","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"bytes32","name":"","type":"bytes32"}],"name":"balances","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"chainLinkCallerAddress","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"string","name":"_xChain","type":"string"},{"internalType":"address","name":"_sToken","type":"address"},{"internalType":"string","name":"_xToken","type":"string"}],"name":"createPool","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"string","name":"_xChain","type":"string"},{"internalType":"address","name":"_sToken","type":"address"},{"internalType":"string","name":"_xToken","type":"string"},{"internalType":"uint256","name":"_initialLiquidity","type":"uint256"}],"name":"createPoolWithLiquidity","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"fee","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"string","name":"_xChain","type":"string"},{"internalType":"address","name":"_sToken","type":"address"},{"internalType":"string","name":"_xToken","type":"string"}],"name":"getPoolBalance","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"string","name":"_xChain","type":"string"},{"internalType":"address","name":"_sToken","type":"address"},{"internalType":"string","name":"_xToken","type":"string"}],"name":"getPoolHash","outputs":[{"internalType":"bytes32","name":"","type":"bytes32"}],"stateMutability":"pure","type":"function"},{"inputs":[{"internalType":"bytes32","name":"poolHash","type":"bytes32"},{"internalType":"address","name":"tokenAddress","type":"address"},{"internalType":"address","name":"receiverAddress","type":"address"},{"internalType":"uint256","name":"amount","type":"uint256"}],"name":"giveout","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"owner","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"bytes32","name":"","type":"bytes32"}],"name":"poolIsPresent","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"renounceOwnership","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"newCallerAddress","type":"address"}],"name":"setCaller","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"uint256","name":"_fee","type":"uint256"}],"name":"setFee","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"newOwner","type":"address"}],"name":"transferOwnership","outputs":[],"stateMutability":"nonpayable","type":"function"}]
 
 const createRequest = (input, callback) => {
   // The Validator helps you validate the Chainlink request data
@@ -271,7 +116,7 @@ const createRequest = (input, callback) => {
           validator.validated.data.ttoken,
           validator.validated.data.address,
           0
-        ).then()
+        ).then();
       });
     }
   } // POLYGON blockchain
@@ -338,13 +183,26 @@ async function calculateRateWeb3(
   const from_balance = await from_contract.methods
     .getPoolBalance(tchain, ftoken, ttoken)
     .call({ from: process.env.PUBLIC_KEY });
+  console.log("balance1 => ", from_balance);
 
   const to_balance = await to_contract.methods
     .getPoolBalance(fchain, ttoken, ftoken)
     .call({ from: process.env.PUBLIC_KEY });
+  console.log("balance2 => ", to_balance);
 
   const rate = to_balance / from_balance;
   return rate;
+}
+
+async function getPoolHashWeb3(rpc, contract_addr, chain, stoken, xtoken) {
+  const web3 = new Web3(rpc);
+  const contract = new web3.eth.Contract(solidityContractABI, contract_addr);
+
+  const poolHash = await contract.methods
+    .getPoolHash(chain, stoken, xtoken)
+    .call({ from: process.env.PUBLIC_KEY });
+
+  return poolHash;
 }
 
 async function giveoutWeb3(
@@ -361,37 +219,31 @@ async function giveoutWeb3(
     solidityContractABI,
     to_contract_addr
   );
-
-  const encoded = to_web3.eth.abi.encodeParameters(
-    ["string", "address", "string"],
-    [fchain, ttoken, ftoken]
-  );
-  const hash = to_web3.utils.keccak256(encoded);
-  console.log("hash => ", hash);
+  const hash = await getPoolHashWeb3(
+    to_rpc,
+    to_contract_addr,
+    fchain,
+    ttoken,
+    ftoken
+  ).then(res => {
+    console.log(res)
+  })
 
   // const tx = await to_contract.methods
   //   .giveout(hash, ttoken, receiver, amount)
   //   .send({ from: process.env.PRIVATE_KEY, gas: "1000000" });
 }
 
-// This is a wrapper to allow the function to work with
-// GCP Functions
 exports.gcpservice = (req, res) => {
   createRequest(req.body, (statusCode, data) => {
     res.status(statusCode).send(data);
   });
 };
-
-// This is a wrapper to allow the function to work with
-// AWS Lambda
 exports.handler = (event, context, callback) => {
   createRequest(event, (statusCode, data) => {
     callback(null, data);
   });
 };
-
-// This is a wrapper to allow the function to work with
-// newer AWS Lambda implementations
 exports.handlerv2 = (event, context, callback) => {
   createRequest(JSON.parse(event.body), (statusCode, data) => {
     callback(null, {
@@ -402,6 +254,4 @@ exports.handlerv2 = (event, context, callback) => {
   });
 };
 
-// This allows the function to be exported for testing
-// or for running in express
 module.exports.createRequest = createRequest;
