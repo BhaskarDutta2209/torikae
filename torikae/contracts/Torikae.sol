@@ -9,18 +9,21 @@ contract Torikae is Ownable {
     address public chainLinkCallerAddress;
 
     modifier onlyChainlink() {
-        require(msg.sender == chainLinkCallerAddress, "Ownable: caller is not the owner");
+        require(
+            msg.sender == chainLinkCallerAddress,
+            "Ownable: caller is not the owner"
+        );
         _;
     }
 
     struct Pool {
         string xChain;
         address sToken; // ERC20 token in the same chain
-        string xToken;  // Token in the cross chain
+        string xToken; // Token in the cross chain
     }
 
-    mapping (bytes32 => uint256) public balances;
-    mapping (bytes32 => bool) public poolIsPresent;
+    mapping(bytes32 => uint256) public balances;
+    mapping(bytes32 => bool) public poolIsPresent;
 
     constructor(uint256 _fee, address _chainLinkCallerAddress) {
         fee = _fee;
@@ -36,11 +39,16 @@ contract Torikae is Ownable {
     }
 
     // Function to create pool
-    function createPool(string memory _xChain, address _sToken, string memory _xToken) public {
+    function createPool(
+        string memory _xChain,
+        address _sToken,
+        string memory _xToken
+    ) public {
         require(_sToken != address(0), "sToken cannot be 0x0");
 
-        Pool memory pool = Pool(_xChain, _sToken, _xToken);
-        bytes32 poolHash = keccak256(abi.encodePacked(pool.xChain, pool.sToken, pool.xToken));
+        bytes32 poolHash = keccak256(
+            abi.encodePacked(_xChain, _sToken, _xToken)
+        );
 
         require(!poolIsPresent[poolHash], "Pool already exists");
 
@@ -49,26 +57,39 @@ contract Torikae is Ownable {
     }
 
     // Function to create pool with initial liquidity
-    function createPoolWithLiquidity(string memory _xChain, address _sToken, string memory _xToken, uint256 _initialLiquidity) public {
+    function createPoolWithLiquidity(
+        string memory _xChain,
+        address _sToken,
+        string memory _xToken,
+        uint256 _initialLiquidity
+    ) public {
         require(_sToken != address(0), "sToken cannot be 0x0");
 
-        Pool memory pool = Pool(_xChain, _sToken, _xToken);
-        bytes32 poolHash = keccak256(abi.encodePacked(pool.xChain, pool.sToken, pool.xToken));
+        bytes32 poolHash = keccak256(
+            abi.encodePacked(_xChain, _sToken, _xToken)
+        );
 
         require(!poolIsPresent[poolHash], "Pool already exists");
 
         // Take token from the caller
-        IERC20(_sToken).transferFrom(msg.sender, address(this), _initialLiquidity);
+        IERC20(_sToken).transferFrom(
+            msg.sender,
+            address(this),
+            _initialLiquidity
+        );
 
         poolIsPresent[poolHash] = true;
         balances[poolHash] = _initialLiquidity;
     }
 
     // Function to add liquidity
-    function addLiquidity(string memory _xChain, address _sToken, string memory _xToken, uint256 _amount) public {
-
-        Pool memory pool = Pool(_xChain, _sToken, _xToken);
-        bytes32 poolHash = keccak256(abi.encodePacked(pool.xChain, pool.sToken, pool.xToken));
+    function addLiquidity(
+        string memory _xChain,
+        address _sToken,
+        string memory _xToken,
+        uint256 _amount
+    ) public {
+        bytes32 poolHash = getPoolHash(_xChain, _sToken, _xToken);
         require(poolIsPresent[poolHash], "Pool does not exist");
 
         // Take token from the caller
@@ -77,9 +98,14 @@ contract Torikae is Ownable {
     }
 
     // Function to get the balance of the pool
-    function getPoolBalance(string memory _xChain, address _sToken, string memory _xToken) public view returns (uint256) {
-        Pool memory pool = Pool(_xChain, _sToken, _xToken);
-        bytes32 poolHash = keccak256(abi.encodePacked(pool.xChain, pool.sToken, pool.xToken));
+    function getPoolBalance(
+        string memory _xChain,
+        address _sToken,
+        string memory _xToken
+    ) public view returns (uint256) {
+        bytes32 poolHash = keccak256(
+            abi.encodePacked(_xChain, _sToken, _xToken)
+        );
 
         return balances[poolHash];
     }
@@ -87,15 +113,32 @@ contract Torikae is Ownable {
     // Function to call Chainlink external adpater
 
     // Function be be called by Chainlink external adapter
-    function giveout(bytes32 poolHash, address tokenAddress, address receiverAddress, uint256 amount) public onlyChainlink {
+    function giveout(
+        bytes32 poolHash,
+        address tokenAddress,
+        address receiverAddress,
+        uint256 amount
+    ) public onlyChainlink {
         require(tokenAddress != address(0), "Token address is not valid");
         require(receiverAddress != address(0), "Receiver address is not valid");
         require(amount > 0, "Amount is not valid");
+        require(poolIsPresent[poolHash], "Pool does not exist");
 
         // Transfer the token
         IERC20(tokenAddress).transfer(receiverAddress, amount);
 
         // Reduce the balance from pool
         balances[poolHash] -= amount;
+    }
+
+    // Function to just get the hash of the pool
+    function getPoolHash(
+        string memory _xChain,
+        address _sToken,
+        string memory _xToken
+    ) public pure returns (bytes32) {
+        return keccak256(
+            abi.encodePacked(_xChain, _sToken, _xToken)
+        );
     }
 }

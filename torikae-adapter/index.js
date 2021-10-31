@@ -30,7 +30,8 @@ const customParams = {
   ftoken: ["ftoken", "fromtoken"],
   tchain: ["tchain", "tochain"],
   ttoken: ["ttoken", "totoken"],
-  address: ["address", "toaddress"],
+  address: ["address", "toaddress", "receiver"],
+  // amount: ["amount", "baseamount"],
   endpoint: false,
 };
 
@@ -260,9 +261,18 @@ const createRequest = (input, callback) => {
         "BSC",
         validator.validated.data.ftoken,
         validator.validated.data.ttoken
-      ).then(res => {
+      ).then((res) => {
         console.log("rate= ", res);
-      })
+        giveoutWeb3(
+          "https://data-seed-prebsc-1-s2.binance.org:8545/",
+          process.env.BSC_CONTRACT_ADDRESS,
+          "POLYGON",
+          validator.validated.data.ftoken,
+          validator.validated.data.ttoken,
+          validator.validated.data.address,
+          0
+        ).then()
+      });
     }
   } // POLYGON blockchain
 
@@ -325,20 +335,43 @@ async function calculateRateWeb3(
     to_contract_addr
   );
 
-  const from_balance = await from_contract.methods.getPoolBalance(
-    tchain,
-    ftoken,
-    ttoken
-  ).call({ from: process.env.PUBLIC_KEY });
+  const from_balance = await from_contract.methods
+    .getPoolBalance(tchain, ftoken, ttoken)
+    .call({ from: process.env.PUBLIC_KEY });
 
-  const to_balance = await to_contract.methods.getPoolBalance(
-    fchain,
-    ttoken,
-    ftoken
-  ).call({ from: process.env.PUBLIC_KEY });
+  const to_balance = await to_contract.methods
+    .getPoolBalance(fchain, ttoken, ftoken)
+    .call({ from: process.env.PUBLIC_KEY });
 
   const rate = to_balance / from_balance;
   return rate;
+}
+
+async function giveoutWeb3(
+  to_rpc,
+  to_contract_addr,
+  fchain,
+  ftoken,
+  ttoken,
+  receiver,
+  amount
+) {
+  const to_web3 = new Web3(to_rpc);
+  const to_contract = new to_web3.eth.Contract(
+    solidityContractABI,
+    to_contract_addr
+  );
+
+  const encoded = to_web3.eth.abi.encodeParameters(
+    ["string", "address", "string"],
+    [fchain, ttoken, ftoken]
+  );
+  const hash = to_web3.utils.keccak256(encoded);
+  console.log("hash => ", hash);
+
+  // const tx = await to_contract.methods
+  //   .giveout(hash, ttoken, receiver, amount)
+  //   .send({ from: process.env.PRIVATE_KEY, gas: "1000000" });
 }
 
 // This is a wrapper to allow the function to work with
